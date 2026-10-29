@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Outlook Task Action Hub</title>
+
+  <!-- Office JavaScript API -->
+  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="taskpane.css" />
+</head>
+<body class="ms-font-m ms-welcome">
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-area">
+          <div class="logo-icon">⚡</div>
+          <div>
+            <h1 class="app-title">Task Action Hub</h1>
+            <p class="app-subtitle" id="platform-badge">Outlook Add-in</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+
+      <!-- Loading State -->
+      <div id="loading-state" class="state-container">
+        <div class="spinner"></div>
+        <p>Connecting to email...</p>
+      </div>
+
+      <!-- Main Action Pane -->
+      <div id="main-content" style="display: none;">
+        
+        <!-- Email Metadata Card -->
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">✉️</span>
+            <span class="card-title">Email Information</span>
+          </div>
+          <div class="card-body">
+            <div class="info-row">
+              <span class="info-label">Subject:</span>
+              <span class="info-value highlight" id="email-subject">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">From:</span>
+              <span class="info-value" id="email-from">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Date:</span>
+              <span class="info-value" id="email-date">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Extracted Table Data (Auto-detected from Email Body) -->
+        <section class="card" id="extracted-data-card">
+          <div class="card-header">
+            <span class="card-icon">📊</span>
+            <span class="card-title">Detected Link & Capacity Data</span>
+            <span class="badge" id="table-status-badge">Scanning</span>
+          </div>
+          <div class="card-body">
+            <div id="extracted-table-container">
+              <p class="helper-text">Analyzing email body for structured data...</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Task Assignment Section -->
+        <section class="card action-card">
+          <div class="card-header">
+            <span class="card-icon">📋</span>
+            <span class="card-title">Assign Task</span>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="task-title" class="form-label">Task Name</label>
+              <input type="text" id="task-title" class="form-control" placeholder="Enter task name..." />
+            </div>
+
+            <div class="form-group">
+              <label for="task-assignee" class="form-label">Assign To</label>
+              <select id="task-assignee" class="form-control">
+                <option value="Transmission Team">Transmission Team</option>
+                <option value="S&M Team">Sales & Marketing (SComm)</option>
+                <option value="Technical Operations">Technical Operations</option>
+                <option value="Unassigned">Unassigned (Queue)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-priority" class="form-label">Priority</label>
+              <select id="task-priority" class="form-control">
+                <option value="High">🔴 High Priority</option>
+                <option value="Normal" selected>🟡 Normal Priority</option>
+                <option value="Low">🟢 Low Priority</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-notes" class="form-label">Task Notes / Instructions</label>
+              <textarea id="task-notes" class="form-control" rows="3" placeholder="Add custom notes or specific actions required..."></textarea>
+            </div>
+
+            <!-- Execution Button -->
+            <button id="btn-assign-task" class="btn btn-primary">
+              <span class="btn-icon">🚀</span>
+              <span id="btn-text">Execute / Assign Task</span>
+            </button>
+
+            <!-- Status Alert Box -->
+            <div id="status-box" class="status-box" style="display: none;">
+              <span id="status-icon" class="status-icon"></span>
+              <span id="status-message" class="status-message"></span>
+            </div>
+
+            <div class="dev-hook-note">
+              💡 <strong>Hook Ready:</strong> Modify <code>executeAssignedTask()</code> inside <code>taskpane.js</code> to link your internal API, database, or workflow.
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <small>Outlook Cross-Platform Add-in &bull; Android &bull; Desktop &bull; 365</small>
+    </footer>
+
+  </div>
+
+  <script src="taskpane.js"></script>
+</body>
+</html>
