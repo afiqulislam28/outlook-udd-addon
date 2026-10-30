@@ -56,7 +56,7 @@
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
 
   <!-- ================================================================= -->
-  <!-- VERSION OVERRIDES V1.0 (Desktop & Web)                            -->
+  <!-- VERSION OVERRIDES V1.0                                            -->
   <!-- ================================================================= -->
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <Requirements>
@@ -67,6 +67,8 @@
 
     <Hosts>
       <Host xsi:type="MailHost">
+
+        <!-- Desktop & Web (Office 365) -->
         <DesktopFormFactor>
           <FunctionFile resid="Commands.Url" />
           <ExtensionPoint xsi:type="MessageReadCommandSurface">
@@ -92,9 +94,11 @@
             </OfficeTab>
           </ExtensionPoint>
         </DesktopFormFactor>
+
       </Host>
     </Hosts>
 
+    <!-- Centralized, Unique Resources -->
     <Resources>
       <bt:Images>
         <bt:Image id="icon16" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/assets/icon-16.png" />
@@ -113,66 +117,6 @@
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Review capacity downgrade details and sync directly to the Downgrade Excel worksheet." />
       </bt:LongStrings>
     </Resources>
-
-    <!-- =============================================================== -->
-    <!-- NESTED VERSION OVERRIDES V1.1 (Outlook Mobile on Android & iOS) -->
-    <!-- =============================================================== -->
-    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-      <Requirements>
-        <bt:Sets DefaultMinVersion="1.5">
-          <bt:Set Name="Mailbox" />
-        </bt:Sets>
-      </Requirements>
-
-      <Hosts>
-        <Host xsi:type="MailHost">
-          <MobileFormFactor>
-            <FunctionFile resid="MobileCommands.Url" />
-            <ExtensionPoint xsi:type="MobileMessageReadCommandSurface">
-              <Group id="mobileMsgReadGroup">
-                <Label resid="MobileGroupLabel" />
-                <Control xsi:type="MobileButton" id="mobileReadOpenPaneButton">
-                  <Label resid="MobileTaskpaneButton.Label" />
-                  <Icon xsi:type="bt:MobileIconList">
-                    <bt:Image size="25" scale="1" resid="icon32" />
-                    <bt:Image size="25" scale="2" resid="icon32" />
-                    <bt:Image size="25" scale="3" resid="icon32" />
-                    <bt:Image size="32" scale="1" resid="icon32" />
-                    <bt:Image size="32" scale="2" resid="icon32" />
-                    <bt:Image size="32" scale="3" resid="icon32" />
-                    <bt:Image size="48" scale="1" resid="icon80" />
-                    <bt:Image size="48" scale="2" resid="icon80" />
-                    <bt:Image size="48" scale="3" resid="icon80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <SourceLocation resid="MobileTaskpane.Url" />
-                  </Action>
-                </Control>
-              </Group>
-            </ExtensionPoint>
-          </MobileFormFactor>
-        </Host>
-      </Hosts>
-
-      <Resources>
-        <bt:Images>
-          <bt:Image id="icon32" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/assets/icon-32.png" />
-          <bt:Image id="icon80" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/assets/icon-80.png" />
-        </bt:Images>
-        <bt:Urls>
-          <bt:Url id="MobileCommands.Url" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/commands.html" />
-          <bt:Url id="MobileTaskpane.Url" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/taskpane.html" />
-        </bt:Urls>
-        <bt:ShortStrings>
-          <bt:String id="MobileGroupLabel" DefaultValue="UDD Operations" />
-          <bt:String id="MobileTaskpaneButton.Label" DefaultValue="Downgrade Sync" />
-        </bt:ShortStrings>
-        <bt:LongStrings>
-          <bt:String id="MobileTaskpaneButton.Tooltip" DefaultValue="Review capacity downgrade details and sync directly to the Downgrade Excel worksheet." />
-        </bt:LongStrings>
-      </Resources>
-    </VersionOverrides>
-
   </VersionOverrides>
 
 </OfficeApp>
