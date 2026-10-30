@@ -685,7 +685,23 @@ async function handleSyncClick() {
       initialId: `Link: ${rec.linkId}`,
       reqNo: (currentEmail.subject.match(/(?:REQ-|L3R-[A-Z]+-\d+-\d+-REQ-)(\d+)/i) || ["","UDD-DOWNGRADE"])[1],
       item: "NTTN Capacity Downgrade",
-      zone: "N/A"
+      zone: "N/A",
+
+      // Literal Excel Table Column Headers (Case-insensitive matching by header name)
+      "Date": currentEmail.date,
+      "BTS Name/Service Agent": rec.distri || "",
+      "Route Name": "",
+      "Provider": rec.vendor,
+      "Link ID": rec.linkId,
+      "Location Tagging": "",
+      "Existing BW": rec.existingBw || "0",
+      "Existing Unit Cost": "",
+      "Existing Total MRC": "",
+      "Downgrade BW (Mbps)": rec.downgradeBw || "0",
+      "New BW after Down-gradation (Mbps)": rec.newBw || "0",
+      "Downgraded Unit Cost": rec.unitCost || "0.00",
+      "Downgraded Total MRC": ((parseFloat(rec.newBw) || 0) * (parseFloat(rec.unitCost) || 0)).toFixed(2),
+      "Effective Date": rec.effectiveDate || "ASAP"
     };
 
     try {
