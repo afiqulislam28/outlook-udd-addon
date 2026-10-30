@@ -1,0 +1,11 @@
+{
+  "name": "outlook-task-addon",
+  "version": "1.0.0",
+  "description": "Cross-platform Outlook Add-in for Outlook Android, Desktop, and 365",
+  "scripts": {
+    "start": "npx http-server . -p 3000 --ssl --cert cert.pem --key key.pem",
+    "serve": "npx serve . -l 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

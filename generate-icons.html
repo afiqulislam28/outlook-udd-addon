@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Outlook Add-in Icon Generator</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 30px; background: #f3f2f1; color: #323130; }
+    .card { background: white; padding: 24px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { font-size: 20px; margin-top: 0; color: #0078d4; }
+    p { font-size: 14px; color: #605e5c; }
+    .preview-box { display: flex; gap: 15px; align-items: flex-end; margin: 20px 0; background: #faf9f8; padding: 15px; border-radius: 6px; border: 1px solid #edebe9; }
+    .preview-item { text-align: center; font-size: 11px; }
+    .preview-item canvas { border: 1px solid #ccc; border-radius: 4px; background: white; }
+    button { background: #0078d4; color: white; border: none; padding: 10px 18px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #106ebe; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎨 Outlook Add-in Icon Generator</h1>
+    <p>This tool automatically generates the 5 exact icon sizes required by Microsoft Outlook for Desktop, Web, and Android Mobile.</p>
+    
+    <div class="preview-box">
+      <div class="preview-item">
+        <canvas id="c16" width="16" height="16"></canvas>
+        <div>16x16</div>
+      </div>
+      <div class="preview-item">
+        <canvas id="c25" width="25" height="25"></canvas>
+        <div>25x25</div>
+      </div>
+      <div class="preview-item">
+        <canvas id="c32" width="32" height="32"></canvas>
+        <div>32x32</div>
+      </div>
+      <div class="preview-item">
+        <canvas id="c48" width="48" height="48"></canvas>
+        <div>48x48</div>
+      </div>
+      <div class="preview-item">
+        <canvas id="c80" width="80" height="80"></canvas>
+        <div>80x80</div>
+      </div>
+    </div>
+
+    <button onclick="downloadAllIcons()">Download All Icons (assets/)</button>
+    <p id="msg" style="margin-top: 15px; color: #107c10; font-weight: 600;"></p>
+  </div>
+
+  <script>
+    const sizes = [16, 25, 32, 48, 80];
+
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, size, size);
+
+      // Background rounded rect
+      const r = size * 0.18;
+      ctx.fillStyle = '#0078d4';
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(size - r, 0);
+      ctx.quadraticCurveTo(size, 0, size, r);
+      ctx.lineTo(size, size - r);
+      ctx.quadraticCurveTo(size, size, size - r, size);
+      ctx.lineTo(r, size);
+      ctx.quadraticCurveTo(0, size, 0, size - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // Bolt / Task Checkmark in white
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = Math.max(1.5, size * 0.08);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      // Lightning / Task symbol
+      ctx.beginPath();
+      const s = size;
+      ctx.moveTo(s * 0.55, s * 0.18);
+      ctx.lineTo(s * 0.32, s * 0.52);
+      ctx.lineTo(s * 0.50, s * 0.52);
+      ctx.lineTo(s * 0.44, s * 0.82);
+      ctx.lineTo(s * 0.70, s * 0.44);
+      ctx.lineTo(s * 0.52, s * 0.44);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Render previews
+    sizes.forEach(sz => {
+      const c = document.getElementById(`c${sz}`);
+      if (c) drawIcon(c, sz);
+    });
+
+    function downloadAllIcons() {
+      sizes.forEach((sz, idx) => {
+        setTimeout(() => {
+          const c = document.getElementById(`c${sz}`);
+          const a = document.createElement('a');
+          a.download = `icon-${sz}.png`;
+          a.href = c.toDataURL('image/png');
+          a.click();
+        }, idx * 200);
+      });
+      document.getElementById('msg').textContent = 'Downloaded 5 icons! Move them to the assets/ folder.';
+    }
+  </script>
+</body>
+</html>

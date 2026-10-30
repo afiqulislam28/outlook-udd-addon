@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>UDD Downgrade Sync — Outlook Add-in</title>
+
+  <!-- Office JavaScript API -->
+  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="taskpane.css" />
+</head>
+<body class="ms-font-m">
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-area">
+          <div class="logo-icon">📉</div>
+          <div>
+            <h1 class="app-title">UDD Downgrade Sync</h1>
+            <p class="app-subtitle" id="platform-badge">Outlook Add-in</p>
+          </div>
+        </div>
+        <div class="header-badges">
+          <span class="sheet-target-badge">🎯 Downgrade Sheet</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+
+      <!-- Loading State -->
+      <div id="loading-state" class="state-container">
+        <div class="spinner"></div>
+        <p>Scanning email for downgrade details...</p>
+      </div>
+
+      <!-- Main Action Pane -->
+      <div id="main-content" style="display: none;">
+        
+        <!-- Email Metadata Card -->
+        <section class="card email-card">
+          <div class="card-header">
+            <span class="card-icon">✉️</span>
+            <span class="card-title">Email Context</span>
+            <button id="btn-refresh-email" class="btn-icon-only" title="Re-scan Email">🔄</button>
+          </div>
+          <div class="card-body">
+            <div class="info-row">
+              <span class="info-label">Subject:</span>
+              <span class="info-value highlight" id="email-subject">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">From:</span>
+              <span class="info-value" id="email-from">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Date:</span>
+              <span class="info-value" id="email-date">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Detected Downgrade Records -->
+        <section class="card records-card">
+          <div class="card-header">
+            <div class="header-left">
+              <span class="card-icon">📊</span>
+              <span class="card-title">Detected Downgrade Records</span>
+            </div>
+            <span class="badge" id="detection-status-badge">Scanning</span>
+          </div>
+
+          <div class="card-body">
+            <p class="section-desc">Verify and edit the capacity details below before syncing to the <strong>Downgrade</strong> sheet.</p>
+            
+            <!-- Records Container (Dynamic Cards/Rows) -->
+            <div id="records-list" class="records-list">
+              <!-- Rendered via taskpane.js -->
+            </div>
+
+            <!-- Add Manual Row Button -->
+            <button id="btn-add-record" class="btn btn-secondary btn-sm" style="margin-top: 10px;">
+              <span>➕ Add Link Manually</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Action Panel -->
+        <section class="card actions-card">
+          <div class="card-body">
+            <!-- Primary Sync Button -->
+            <button id="btn-sync-sheet" class="btn btn-primary btn-block">
+              <span class="btn-icon" id="sync-icon">🔄</span>
+              <span id="sync-btn-text">Sync to Downgrade Sheet</span>
+            </button>
+
+            <!-- Secondary Copy TSV Button -->
+            <button id="btn-copy-tsv" class="btn btn-outline btn-block" style="margin-top: 8px;">
+              <span class="btn-icon">📋</span>
+              <span id="copy-btn-text">Copy for Excel (Ctrl+V)</span>
+            </button>
+
+            <!-- Status Alert Box -->
+            <div id="status-box" class="status-box" style="display: none; margin-top: 12px;">
+              <span id="status-icon" class="status-icon"></span>
+              <div id="status-message" class="status-message"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings & Power Automate Config (Collapsible) -->
+        <details class="card settings-card">
+          <summary class="settings-summary">
+            <span>⚙️ Destination & Bridge Settings</span>
+          </summary>
+          <div class="card-body settings-body">
+            <div class="form-group">
+              <label for="bridge-url-input" class="form-label">Power Automate Flow Bridge URL</label>
+              <input type="text" id="bridge-url-input" class="form-control" />
+              <small class="helper-text">Endpoint used to post data to Excel. Leave default unless changed.</small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Target Excel Worksheet</label>
+              <input type="text" class="form-control" value="Downgrade" readonly disabled />
+              <small class="helper-text">Data is submitted directly to the "Downgrade" sheet.</small>
+            </div>
+
+            <div class="btn-group-right">
+              <button id="btn-reset-url" class="btn btn-secondary btn-sm">Reset Default</button>
+              <button id="btn-save-url" class="btn btn-primary btn-sm">Save URL</button>
+            </div>
+          </div>
+        </details>
+
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <small>Link3 Technologies &bull; UDD Operations &bull; Downgrade Sync</small>
+    </footer>
+
+  </div>
+
+  <script src="taskpane.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
+  xsi:type="MailApp">
+
+  <!-- Add-in Metadata -->
+  <Id>b29f76a0-4318-472b-8a8f-2878149e6f92</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Internal IT Solutions</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="UDD Downgrade Sync" />
+  <Description DefaultValue="Extract capacity downgrade details from emails and sync directly to the Downgrade Excel worksheet." />
+  <IconUrl DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-tag-external/assets/icon-64.png" />
+  <HighResolutionIconUrl DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-tag-external/assets/icon-80.png" />
+  <SupportUrl DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon" />
+
+  <!-- Domains your add-in needs access to -->
+  <AppDomains>
+    <AppDomain>https://afiqulislam28.github.io</AppDomain>
+    <AppDomain>https://defaultbda5f9dab8cd47efba3f91645269a2.48.environment.api.powerplatform.com</AppDomain>
+  </AppDomains>
+
+  <!-- Hosts where this add-in can run -->
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+
+  <!-- Required Mailbox API requirement set -->
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.3" />
+    </Sets>
+  </Requirements>
+
+  <!-- Legacy form settings fallback -->
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/taskpane.html" />
+        <RequestedHeight>350</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <!-- Permissions: ReadItem allows reading email metadata & body, and avoids Exchange administrator blocks -->
+  <Permissions>ReadItem</Permissions>
+
+  <!-- Activation rule: Active when reading ANY email message -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read" />
+  </Rule>
+
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <!-- ================================================================= -->
+  <!-- VERSION OVERRIDES V1.1: Desktop, Web & Mobile                      -->
+  <!-- ================================================================= -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+    <Description resid="TaskpaneButton.Tooltip" />
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.5">
+        <bt:Set Name="Mailbox" />
+      </bt:Sets>
+    </Requirements>
+
+    <Hosts>
+      <Host xsi:type="MailHost">
+
+        <!-- Desktop & Web (Office 365) -->
+        <DesktopFormFactor>
+          <FunctionFile resid="Commands.Url" />
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="msgReadGroup">
+                <Label resid="GroupLabel" />
+                <Control xsi:type="Button" id="msgReadOpenPaneButton">
+                  <Label resid="TaskpaneButton.Label" />
+                  <Supertip>
+                    <Title resid="TaskpaneButton.Label" />
+                    <Description resid="TaskpaneButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url" />
+                    <SupportsPinning>true</SupportsPinning>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+
+        <!-- Mobile Form Factor (Android / iOS) -->
+        <MobileFormFactor>
+          <FunctionFile resid="Commands.Url" />
+          <ExtensionPoint xsi:type="MobileMessageReadCommandSurface">
+            <Group id="mobileMsgReadGroup">
+              <Label resid="GroupLabel" />
+              <Control xsi:type="MobileButton" id="mobileReadOpenPaneButton">
+                <Label resid="TaskpaneButton.Label" />
+                <Icon xsi:type="bt:MobileIconList">
+                  <bt:Image size="25" scale="1" resid="icon32" />
+                  <bt:Image size="25" scale="2" resid="icon32" />
+                  <bt:Image size="25" scale="3" resid="icon32" />
+                  <bt:Image size="32" scale="1" resid="icon32" />
+                  <bt:Image size="32" scale="2" resid="icon32" />
+                  <bt:Image size="32" scale="3" resid="icon32" />
+                  <bt:Image size="48" scale="1" resid="icon80" />
+                  <bt:Image size="48" scale="2" resid="icon80" />
+                  <bt:Image size="48" scale="3" resid="icon80" />
+                </Icon>
+                <Action xsi:type="ShowTaskpane">
+                  <SourceLocation resid="Taskpane.Url" />
+                </Action>
+              </Control>
+            </Group>
+          </ExtensionPoint>
+        </MobileFormFactor>
+
+      </Host>
+    </Hosts>
+
+    <!-- Centralized, Unique Resources -->
+    <Resources>
+      <bt:Images>
+        <bt:Image id="icon16" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-tag-external/assets/icon-16.png" />
+        <bt:Image id="icon32" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-tag-external/assets/icon-32.png" />
+        <bt:Image id="icon80" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-tag-external/assets/icon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Commands.Url" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://afiqulislam28.github.io/outlook-udd-addon/taskpane.html" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GroupLabel" DefaultValue="UDD Operations" />
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Downgrade Sync" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Review capacity downgrade details and sync directly to the Downgrade Excel worksheet." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+
+</OfficeApp>
