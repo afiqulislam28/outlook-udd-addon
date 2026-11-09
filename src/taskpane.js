@@ -4,8 +4,8 @@
  * Target Destination: Downgrade sheet in "DISTRIBUTOR REQUEST - AGM PLANNING.xlsx" via Power Automate
  */
 
-// Default Power Automate Bridge Endpoint
-const DEFAULT_BRIDGE_URL = "https://defaultbda5f9dab8cd47efba3f91645269a2.48.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2ab50687df5a4a978c31bf38d705121c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v45QYDIZX08hHSRwb31odqYWiK1RyEeVrl3APaf7fnw";
+// Default Power Automate Bridge Endpoint (set via Add-in Settings or configure below)
+const DEFAULT_BRIDGE_URL = "";
 
 // NTTN Rate Slabs for SCL and FHL
 const SLABS = {
@@ -641,6 +641,10 @@ async function handleSyncClick() {
   }
 
   const bridgeUrl = getActiveBridgeUrl();
+  if (!bridgeUrl) {
+    showStatus("Please enter your Power Automate Bridge URL in Settings before syncing.", "error");
+    return;
+  }
   const syncBtn = document.getElementById("btn-sync-sheet");
   const syncIcon = document.getElementById("sync-icon");
   const syncText = document.getElementById("sync-btn-text");
